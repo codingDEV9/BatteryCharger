@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="style.css">
+<div class="charger">
+    <div class="bg"></div> <!--bg is background colour of the charger --> 
+    <p class="battery">50%</p>
+    <p class="batteryCharging">Charging...</p>
+</div>
+<script>
+let Battery = document.querySelector('.battery');
+let bg = document.querySelector('.bg');
+let batteryCharging = document.querySelector('.batteryCharging');
+
+navigator.getBattery().then( function(battery) {
+    //Update Battery Percentage
+    function updateAllBatteryInfo() {
+        updateChargeInfo();
+    }
+    updateAllBatteryInfo();
+    battery.addEventListener('chargingchange', () => {
+        updateAllBatteryInfo();
+    })
+
+    function updateChargeInfo() {
+        if (battery.charging) {
+            bg.classList.add('active');
+            var batteryLevel = `${parseInt(battery.level * 100) + '%'}`;
+            Battery.innerHTML = batteryLevel;
+            bg.style.width = battery.level * 8.4 + 'em';
+            batteryCharging.innerHTML = 'Battery is charging...';
+        } else {
+            bg.classList.remove('active');
+            batteryCharging.innerHTML = "";
+            var batteryLevel = `${parseInt(battery.level * 100) + '%'}`;
+            Battery.innerHTML = batteryLevel;
+            bg.style.width = battery.level * 8.4 + 'em';
+        }
+
+
+    }
+
+
+
+
+});
+
+
+
+
+</script>
